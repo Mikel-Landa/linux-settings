@@ -1,5 +1,8 @@
 # Linux Personal Settings
 
+## Recommendations
+
+Don't clone the project. Instead, fork it and modify it for your desired configuration and file structure
 
 ## How to install
 
