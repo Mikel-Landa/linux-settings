@@ -46,4 +46,4 @@ alias mux='pgrep -vx tmux > /dev/null && \
 		tmux kill-session -t delete-me && \
 		tmux attach || tmux attach'
 
-source ./gac
+source gac
