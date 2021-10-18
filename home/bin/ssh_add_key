@@ -1,0 +1,34 @@
+#!/bin/bash
+key_type="ed25519"
+comment="$USER@$HOSTNAME"
+dir="$HOME/.ssh"
+for i in "$@"; do
+	case $i in
+		-f=*|--key-file=*)
+		key_file="${i#*=}"
+		shift
+		;;
+		-t=*|--key-type=*)
+		key_type="${i#*=}"
+		shift
+		;;
+		-C=*|--comment=*)
+		comment="${i#*=}"
+		shift
+		;;
+		-d=*|--dir=*)
+		dir="${i#*=}"
+		shift
+		;;
+		
+	esac
+done
+if [[ -z key_file ]]; then echo -e "Must have a --key_file option";exit 1 ; fi
+key_type=$(echo "${key_type,,}")
+key_file="$dir/$key_file"
+if [[ $key_type == "rsa" ]]; then
+ssh-keygen -b 4096 -t $key_type -f $key_file -C "$comment" -N -q
+exit 0
+fi
+echo "pass"
+ssh-keygen -t $key_type -f $key_file -C "$comment" -N -q
