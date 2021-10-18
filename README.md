@@ -1,4 +1,4 @@
-# Linunx Personal Settings
+# Linux Personal Settings
 
 
 ## How to install
