@@ -2,11 +2,13 @@
 
 ## Recommendations
 
-Don't clone the project. Instead, fork it and modify it for your desired configuration and file structure
+Don't clone the project. Instead, fork it and modify it for your desired configuration and file structure.
+Works on Ubuntu. Modify `apt-install.sh` for it to work in other distros.
 
 ## How to install
 
-Just run `install.sh`. It will create symbolic links for all files in the home directory to their respective directories/files in `$HOME` path.
+Run `apt-install.sh`. Copy `.variables.template` to `.variables` and add your own paths and settings.
+Run `install.sh`. It will create symbolic links for all files in the home directory to their respective directories/files in `$HOME` path.
 
 ### Extend functionality
 

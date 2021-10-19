@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# virtualenvwrapper
+export VIRTUALENVWRAPPER_PYTHON=/bin/python3
+export WORKON_HOME=~/.virtualenvs
+source $HOME/.local/bin/virtualenvwrapper.sh
