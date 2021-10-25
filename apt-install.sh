@@ -15,3 +15,9 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # powerline fonts
 sudo apt-get install powerline fonts-powerline -y
 
+
+# neovim
+sudo apt install -y neovim python3-neovim xclip
+
+
+sudo apt autoremove -y
