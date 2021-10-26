@@ -1,30 +1,75 @@
-syntax on
-set title  " Muestra el nombre del archivo en la ventana de la terminal
-set mouse=a  " Permite la integración del mouse (seleccionar texto, mover el cursor)
-set cursorline  " Resalta la línea actual
-set colorcolumn=120  " Muestra la columna límite a 120 caracteres
+" Fundamentals "{{{
+" ---------------------------------------------------------------------
 
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set shiftround
-set expandtab  " Insertar espacios en lugar de <Tab>s
+" init autocmd
+autocmd!
+" set script encoding
+scriptencoding utf-8
+" stop loading config if it's on tiny or small
+if !1 | finish | endif
 
-set hidden  " Permitir cambiar de buffers sin tener que guardarlos
-
-set ignorecase  " Ignorar mayúsculas al hacer una búsqueda
-set smartcase  " No ignorar mayúsculas si la palabra a buscar contiene mayúsculas
-
-set spelllang=en,es  " Corregir palabras usando diccionarios en inglés y español
-
-set termguicolors  " Activa true colors en la terminal
-set background=light  " Fondo del tema: light o dark
-colorscheme zellner  " Nombre del tema
-
+set nocompatible
+set number
+syntax enable
+set fileencodings=utf-8,sjis,euc-jp,latin
+set encoding=utf-8
+set title
+set autoindent
+set background=dark
+set nobackup
 set hlsearch
-set incsearch
+set showcmd
+set cmdheight=1
+set laststatus=2
+set scrolloff=10
+set expandtab
+"let loaded_matchparen = 1
+set shell=zsh
+set backupskip=/tmp/*,/private/tmp/*
+
+" incremental substitution (neovim)
+if has('nvim')
+  set inccommand=split
+endif
+" turn hybrid line numbers on
+set number relativenumber
+set nu rnu
+" Suppress appending <PasteStart> and <PasteEnd> when pasting
+set t_BE=
+
+set nosc noru nosm
+" Don't redraw while executing macros (good performance config)
+set lazyredraw
+"set showmatch
+" How many tenths of a second to blink when matching brackets
+"set mat=2
+" Ignore case when searching
+set ignorecase
+" Be smart when using tabs ;)
+set smarttab
+" indents
+filetype plugin indent on
+set shiftwidth=2
+set tabstop=2
+set ai "Auto indent
+set si "Smart indent
+set nowrap "No Wrap lines
+set backspace=start,eol,indent
+" Finding files - Search down into subfolders
+set path+=**
+set wildignore+=*/node_modules/*
+
+" Turn off paste mode when leaving insert
+autocmd InsertLeave * set nopaste
+
+" Add asterisks in block comments
+set formatoptions+=r
+
+" language
 set spell
-set statusline=%<%f\ %h%m%r%{kite#statusline()}%=%-14.(%l,%c%V%)\ %P
+set spelllang=en,es  " Correct words both in English and Spanish
+
+" Kite
 set laststatus=2
 set completeopt-=menu
 set completeopt+=menuone   " Show the completions UI even with only 1 item
@@ -32,38 +77,95 @@ set completeopt-=longest   " Don't insert the longest common text
 set completeopt-=preview   " Hide the documentation preview window
 set completeopt+=noinsert  " Don't insert text automatically
 set completeopt-=noselect  " Highlight the first completion automatically
+"}}}
 
-" turn hybrid line numbers on
-set number relativenumber
-set nu rnu
+" Highlights "{{{
+" ---------------------------------------------------------------------
+set cursorline
+"set cursorcolumn
 
+" Set cursor line color on visual mode
+highlight Visual cterm=NONE ctermbg=236 ctermfg=NONE guibg=Grey40
 
-" remaps
-let g:mapleader = ' '  " Definir espacio como la tecla líder
+highlight LineNr cterm=none ctermfg=240 guifg=#2b506e guibg=#000000
 
-nnoremap <leader>s :w<CR>  " Guardar con <líder> + s
+augroup BgHighlight
+  autocmd!
+  autocmd WinEnter * set cul
+  autocmd WinLeave * set nocul
+augroup END
 
-nnoremap <leader>e :e $MYVIMRC<CR>  " Abrir el archivo init.vim con <líder> + e
+if &term =~ "screen"
+  autocmd BufEnter * if bufname("") !~ "^?[A-Za-z0-9?]*://" | silent! exe '!echo -n "\ek[`hostname`:`basename $PWD`/`basename %`]\e\\"' | endif
+  autocmd VimLeave * silent!  exe '!echo -n "\ek[`hostname`:`basename $PWD`]\e\\"'
+endif
 
-" Usar <líder> + y para copiar al portapapeles
-vnoremap <leader>y "+y
-nnoremap <leader>y "+y
+"}}}
 
-" Usar <líder> + d para cortar al portapapeles
-vnoremap <leader>d "+d
-nnoremap <leader>d "+d
+" File types "{{{
+" ---------------------------------------------------------------------
+" JavaScript
+au BufNewFile,BufRead *.es6 setf javascript
+" TypeScript
+au BufNewFile,BufRead *.tsx setf typescriptreact
+" Markdown
+au BufNewFile,BufRead *.md set filetype=markdown
+" Flow
+au BufNewFile,BufRead *.flow set filetype=javascript
 
-" Usar <líder> + p para pegar desde el portapapeles
-nnoremap <leader>p "+p
-vnoremap <leader>p "+p
-nnoremap <leader>P "+P
-vnoremap <leader>P "+P
+set suffixesadd=.js,.es,.jsx,.json,.css,.less,.sass,.styl,.php,.py,.md
 
-" Moverse al buffer siguiente con <líder> + l
-nnoremap <leader>l :bnext<CR>
+autocmd FileType coffee setlocal shiftwidth=2 tabstop=2
+autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
+autocmd FileType yaml setlocal shiftwidth=2 tabstop=2
 
-" Moverse al buffer anterior con <líder> + j
-nnoremap <leader>j :bprevious<CR>
+"}}}
 
-" Cerrar el buffer actual con <líder> + q
-nnoremap <leader>q :bdelete<CR>
+" Imports "{{{
+" ---------------------------------------------------------------------
+runtime ./plug.vim
+if has("unix")
+  let s:uname = system("uname -s")
+  " Do Mac stuff
+  if s:uname == "Darwin\n"
+    runtime ./macos.vim
+  endif
+endif
+
+runtime ./maps.vim
+"}}}
+
+" Syntax theme "{{{
+" ---------------------------------------------------------------------
+
+" true color
+if exists("&termguicolors") && exists("&winblend")
+  syntax enable
+  set termguicolors
+  set winblend=0
+  set wildoptions=pum
+  set pumblend=5
+  set background=dark
+  " Use One Dark theme
+  if (has("nvim"))
+    "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  endif
+  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+  if (has("termguicolors"))
+    set termguicolors
+  endif
+  let g:onedark_terminal_italics=1
+  colorscheme onedark
+endif
+
+"}}}
+
+" Extras "{{{
+" ---------------------------------------------------------------------
+set exrc
+"}}}
+
+" vim: set foldmethod=marker foldlevel=0:
