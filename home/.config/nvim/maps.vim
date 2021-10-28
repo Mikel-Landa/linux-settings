@@ -1,31 +1,35 @@
-let g:mapleader = ' '  " Definir espacio como la tecla líder
+let g:mapleader = ' '  " Define space as leader key
 
-nnoremap <leader>s :w<CR>  " Guardar con <líder> + s
+nnoremap <leader>s :w<CR>  " Save with <leader> + s
 
-nnoremap <leader>e :e $MYVIMRC<CR>  " Abrir el archivo init.vim con <líder> + e
+nnoremap <leader>e :e $MYVIMRC<CR>  " Open init.vim with <leader> +e 
 
-" Usar <líder> + y para copiar al portapapeles
+" Use <leader> + y to copy to clipboard 
 vnoremap <leader>y "+y
 nnoremap <leader>y "+y
 
-" Usar <líder> + d para cortar al portapapeles
+" Use <leader> + d to cut to clipboard 
 vnoremap <leader>d "+d
 nnoremap <leader>d "+d
 
-" Usar <líder> + p para pegar desde el portapapeles
+" Use <leader> + p to paste from clipboard 
 nnoremap <leader>p "+p
 vnoremap <leader>p "+p
 nnoremap <leader>P "+P
 vnoremap <leader>P "+P
 
-" Moverse al buffer siguiente con <líder> + l
+" Move to next buffer with <leader> + l
 nnoremap <leader>l :bnext<CR>
 
-" Moverse al buffer anterior con <líder> + j
+" Move to previous buffer with <leader> + j
 nnoremap <leader>j :bprevious<CR>
 
-" Cerrar el buffer actual con <líder> + q
+" Close current buffer with <leader> + q
 nnoremap <leader>q :bdelete<CR>
 
 
-" Plugins
+" Telescope mappings
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
