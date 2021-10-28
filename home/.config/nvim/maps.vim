@@ -18,6 +18,10 @@ vnoremap <leader>p "+p
 nnoremap <leader>P "+P
 vnoremap <leader>P "+P
 
+
+" Buffers "{{{
+" ---------------------------------------------------------------------
+
 " Move to next buffer with <leader> + l
 nnoremap <leader>l :bnext<CR>
 
@@ -27,9 +31,11 @@ nnoremap <leader>j :bprevious<CR>
 " Close current buffer with <leader> + q
 nnoremap <leader>q :bdelete<CR>
 
+"}}}
 
 " Telescope mappings
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+" nnoremap <leader>ff <cmd>Telescope find_files<cr>
+" nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+" nnoremap <leader>fb <cmd>Telescope buffers<cr>
+" nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+" nnoremap <leader>fd <cmd>Telescope file_browser<cr>

@@ -18,10 +18,12 @@ if has("nvim")
   Plug 'hoob3rt/lualine.nvim'
   Plug 'kristijanhusak/defx-git'
   Plug 'kristijanhusak/defx-icons'
-  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
   Plug 'tami5/lspsaga.nvim', { 'branch': 'nvim51' }
   Plug 'folke/lsp-colors.nvim'
   Plug 'L3MON4D3/LuaSnip'
+
+  " File explorer
+  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 
   "Autocompletion
   Plug 'neovim/nvim-lspconfig'
